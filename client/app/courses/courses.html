@@ -1,0 +1,99 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+    	<h1>All Courses</h1>
+
+
+<div>
+ <table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Language</th>
+      <th>Difficulty</th>
+      <th>Rating</th>
+      <th>Views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="success" ng-repeat = "course in courses">
+      <td><a ng-href = "#/courses/{{course._id}}">{{course.title}}</a></td>
+      <td>{{course.language}}</td>
+      <td>{{course.difficulty}}</td>
+      <td><rating ng-model="course.rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></td>
+      <td>{{course.views}}</td>
+     
+    </a>
+
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+
+<div id = "createForm">
+<form class="form-horizontal" ng-submit = "addCourse()">
+  <fieldset>
+    <legend>Create Course</legend>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Course Title</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model = "newCourse.title" class="form-control" id="inputEmail" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Course Language</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model = "newCourse.language" class="form-control" id="inputPassword" placeholder="E.g. Java" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Youtube Link</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model = "newCourse.youtube" class="form-control" id="inputPassword" placeholder="Youtube" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="textArea" class="col-lg-2 control-label">Course Description</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="3" id="textArea" required></textarea>
+        <span class="help-block">Enter information about the course here.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Difficulty</label>
+      <div class="col-lg-10">
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Beginner" checked= "" ng-model = "newCourse.difficulty">
+            Beginner
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Intermediate" ng-model = "newCourse.difficulty">
+            Intermediate
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="Advanced" ng-model = "newCourse.difficulty">
+            Advanced
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
