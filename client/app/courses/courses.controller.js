@@ -2,11 +2,10 @@
     angular.module('learnprogrammingApp')
       .controller('CoursesCtrl', ['$scope','Course', 'Auth', 
            function($scope,Course, Auth) {
+$scope.max = 5;
+$scope.order = "-views";
+$scope.isReadonly = true;
 
-            console.log(Auth.getCurrentUser()._id)
-
-           	$scope.isReadonly = true;
-  			 $scope.max = 5;
            	Course.getCourses().success(function(data){
     		$scope.courses = data
  			 }) 
@@ -20,7 +19,9 @@
       description: $scope.newCourse.description,
       difficulty: $scope.newCourse.difficulty,
       views: 0
+
     }
+    console.log(course.youtube)
 
     Course.addCourse(course)
           .success(function(added_course) {

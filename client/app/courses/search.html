@@ -1,0 +1,23 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+
+<h1>Number of courses found: {{courses.length}}</h1>
+<accordion ng-repeat = "course1 in courses | unique: 'language'">
+    <accordion-group heading="{{course1.language}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      <ul ng-repeat = "course2 in courses | filter: course1.language">
+	<li><a ng-href = "/#/courses/{{course2._id}}"><h4>{{course2.title}}</a></li>
+	<li>Rating: <rating ng-model="course2.rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></li>
+
+	<hr>
+</ul>
+
+    </accordion-group>
+  </accordion>
+</div>
+</div>
+</div>
+
+  
+

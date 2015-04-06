@@ -7,7 +7,13 @@ angular.module('learnprogrammingApp', [
   'ngRoute',
   'ui.bootstrap'
 ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider) {
+  .config(function ($routeProvider, $locationProvider, $httpProvider, $sceDelegateProvider) {
+
+    $sceDelegateProvider.resourceUrlWhitelist([
+    'self',
+    '*://www.youtube.com/**'
+  ]);
+
     $routeProvider
       .otherwise({
         redirectTo: '/'
@@ -16,6 +22,22 @@ angular.module('learnprogrammingApp', [
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
   })
+
+  .filter('unique', function() {
+ return function(collection, keyname) {
+  var output = [];
+  var keys = [];
+
+  angular.forEach(collection, function(item) {
+    var key = item[keyname];
+    if(keys.indexOf(key) === -1) {
+      keys.push(key);
+      output.push(item);
+    }
+  });
+  return output;
+};
+})
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
     return {

@@ -19,7 +19,7 @@
   </thead>
   <tbody>
     <tr class="success" ng-repeat = "course in courses">
-      <td><a ng-href = "#/courses/{{course._id}}">{{course.title}}</a></td>
+      <td><a ng-href = "/#/courses/{{course._id}}">{{course.title}}</a></td>
       <td>{{course.language}}</td>
       <td>{{course.difficulty}}</td>
       <td><rating ng-model="course.rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></td>
@@ -58,7 +58,7 @@
     <div class="form-group">
       <label for="textArea" class="col-lg-2 control-label">Course Description</label>
       <div class="col-lg-10">
-        <textarea class="form-control" rows="3" id="textArea" required></textarea>
+        <textarea class="form-control" rows="3" id="textArea" required ng-model = "newCourse.description"></textarea>
         <span class="help-block">Enter information about the course here.</span>
       </div>
     </div>
