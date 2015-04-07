@@ -9,10 +9,7 @@ angular.module('learnprogrammingApp')
       'link': '/courses'},
       {
       'title': 'Search',
-      'link': '/search'},
-      {
-      'title': 'Popular',
-      'link': '/popular'}
+      'link': '/search'}
       ];
 
     $scope.isCollapsed = true;

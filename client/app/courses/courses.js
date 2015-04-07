@@ -10,7 +10,8 @@ angular.module('learnprogrammingApp')
       .when('/courses/:id',
             {
                 templateUrl:'app/courses/view_course.html',
-                controller: 'CourseDetailCtrl'
+                controller: 'CourseDetailCtrl',
+                authenticate: true
 
             })
       .when('/search',

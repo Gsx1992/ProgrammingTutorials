@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 
-<div class="container">
+<div class="container" ng-hide = "isLoggedIn()">
   <div class="row">
     <div class="col-lg-12">
       <div class="jumbotron">
@@ -13,3 +13,40 @@
     </div>
   </div>
 </div>
+
+<div class="container" ng-show = "isLoggedIn()">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Hi {{name}}</h1>
+
+<div class="row" ng-repeat = "comment in comments" ng-show = "!isEmpty">
+<div class="col-sm-2">
+<div class="thumbnail">
+<img gravatar-src = "'{{comment.email}}'" gravatar-size = "85">
+</div>
+</div>
+
+<div class="col-sm-8">
+<div class="panel panel-default">
+<div class="panel-heading">
+<a href = "/#/users/{{comment.UID}}"><strong>{{comment.name}}</strong></a> <span class="text-muted">Posted: {{comment.created_at | date:'yyyy-MM-dd'}}</span>
+<span><rating ng-model="comment.rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></span>
+</div>
+<div class="panel-body">
+{{comment.post}}
+<br>
+<span><a href = "/#/courses/{{comment.course_id}}">View Course</a></span>
+
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+<h2 ng-show = "isEmpty">No comments found, feel free to post one!</h2>
+    </div>
+  </div>
+</div>
+

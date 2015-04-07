@@ -34,6 +34,68 @@
         </div>
       </div>
     </div>
+
+    <div class="container col-xs-7 col-md-7" id = "viewComments">
+<div class="row">
+<div class="col-sm-12">
+<h3>Comments</h3>
+</div>
+</div>
+<div class="row" ng-repeat = "comment in comments">
+<div class="col-sm-2">
+<div class="thumbnail">
+<img gravatar-src = "'{{comment.email}}'" gravatar-size = "85">
+</div>
+</div>
+
+<div class="col-sm-8">
+<div class="panel panel-default">
+<div class="panel-heading">
+<a href = "/#/users/{{comment.UID}}"><strong>{{comment.name}}</strong></a> <span class="text-muted">Posted: {{comment.created_at | date:'yyyy-MM-dd'}}</span>
+<span><rating ng-model="comment.rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></span>
+</div>
+<div class="panel-body">
+{{comment.post}}
+<br>
+<span><a href = "#/courses/{{comment.course_id}}">View Course</a></span>
+<span class = "glyphicon glyphicon-remove"  ng-show="isAdmin()" ng-click= "deleteComment(comment._id, $index)"></span>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+</div>
+
+<div class="container col-xs-5 col-md-5">
+<form class="form-horizontal" ng-submit = "postComment()">
+</br>
+
+  <fieldset>
+    <legend>Post Comment</legend>
+    <div class="form-group">
+      <label for="inputComment" class="col-lg-2 control-label">Comment</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model = "newComment.post" class="form-control" id="inputComment" placeholder="Enter Comment" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Rating</label>
+      <div class="col-lg-10">
+        <span><rating ng-model="newComment.rate" max="5" readonly="false" on-hover="hoveringOver(value)" on-leave="overStar = null" required></rating></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="submit" class="btn btn-primary">Post</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>
     </div>
       </div>
     </div>

@@ -1,22 +1,30 @@
 'use strict';
 
 angular.module('learnprogrammingApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+  .controller('MainCtrl', ['$scope','Course','Auth', '$routeParams', '$route',
+    function ($scope,Course, Auth, $routeParams, $route) {
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
+      $scope.isLoggedIn = Auth.isLoggedIn;
+      $scope.getCurrentUser = Auth.getCurrentUser;
+      $scope.name = Auth.getCurrentUser().name;
+      $scope.isReadonly = true;
+      $scope.isEmpty = true;
+      var route;
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
+      if($route.current.templateUrl == "app/main/testPage.html"){
+    	route = $routeParams.id
+  		}
 
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
-  });
+  		else{
+  			route = Auth.getCurrentUser()._id
+  		}
+
+      Course.getUserComments(route).success(function(data){
+      	if(data.length > 0){
+			$scope.isEmpty = false
+		}
+		$scope.comments = data
+
+ }) 
+    
+  }]);
