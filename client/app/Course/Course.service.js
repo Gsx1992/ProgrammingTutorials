@@ -30,6 +30,10 @@ angular.module('learnprogrammingApp')
 
      getUserComments : function(user_id) {
           return $http.get('/api/courses/' + user_id+ '/comments')
+     },
+
+     addViewedCourse : function(user_id, course_id) {
+          return $http.post('/api/users/' + user_id+ '/course/'+ course_id)
      }
   }
       

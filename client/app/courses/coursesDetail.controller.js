@@ -9,6 +9,10 @@
     		$scope.comments = data.comments
  			 }) 
 
+        Course.addViewedCourse(Auth.getCurrentUser()._id, $routeParams.id).success(function() {
+            console.log("it worked!!")
+          })
+
         Course.addCourseView($routeParams.id)
           .success(function(updated_course) {
             $scope.course = updated_course

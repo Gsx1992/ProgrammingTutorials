@@ -47,6 +47,30 @@ exports.show = function (req, res, next) {
   });
 };
 
+exports.addViewedCourse = function (req, res, next) {
+  var userId = req.params.user_id;
+  User.findById(userId, function (err, user) {
+    var found = false;
+    
+    for(var i = 0; i < user.viewedCourses.length; i++){
+      if(user.viewedCourses[i] == req.params.course_id)
+      {
+        found = true
+      }
+    }
+
+    if(!found){
+    console.log("in here")
+    user.viewedCourses.push(req.params.course_id);
+    user.save(function (err) {
+                  if(err) { return handleError(res, err); }
+                  return res.json(200,user.viewedCourses)
+   });
+  }
+  if(!user) { return res.send(404); }
+  });
+  };
+
 /**
  * Deletes a user
  * restriction: 'admin'
