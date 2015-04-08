@@ -10,7 +10,6 @@ angular.module('learnprogrammingApp')
       $scope.isReadonly = true;
       $scope.isEmpty = true;
       var route;
-
       if($route.current.templateUrl == "app/main/testPage.html"){
     	route = $routeParams.id
   		}
@@ -19,12 +18,17 @@ angular.module('learnprogrammingApp')
   			route = Auth.getCurrentUser()._id
   		}
 
-      Course.getUserComments(route).success(function(data){
-      	if(data.length > 0){
-			$scope.isEmpty = false
-		}
-		$scope.comments = data
+      $scope.loadComments = function(){
+
+        if(Auth.isLoggedIn() == true){
+        Course.getUserComments(route).success(function(data){
+        if(data.length > 0){
+      $scope.isEmpty = false
+    }
+    $scope.comments = data
 
  }) 
+      }
     
+      }
   }]);

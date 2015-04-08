@@ -43,7 +43,6 @@ $scope.isReadonly = true;
  }
 
  $scope.deleteComment = function(_id, index){
-
     $scope.comments.splice(index, 1)
     Course.deleteCourseComment($scope.course._id, _id)
                 .success(function(added_comment) {

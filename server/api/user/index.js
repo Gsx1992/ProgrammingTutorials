@@ -14,5 +14,6 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 router.post('/:user_id/course/:course_id', controller.addViewedCourse);
+router.get('/:id/views', controller.viewedCourses);
 
 module.exports = router;

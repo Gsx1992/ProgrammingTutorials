@@ -47,6 +47,20 @@ exports.show = function (req, res, next) {
   });
 };
 
+exports.viewedCourses = function (req, res, next) {
+  var userId = req.params.id;
+  if(userId == null){
+    return res.send(404)
+  }
+  else{
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.send(401);
+    res.json(user.viewedCourses);
+  });
+}
+};
+
 exports.addViewedCourse = function (req, res, next) {
   var userId = req.params.user_id;
   User.findById(userId, function (err, user) {

@@ -7,13 +7,19 @@ $scope.order = "-views";
 $scope.isReadonly = true;
 $scope.show = false;  
 $scope.isAdmin = Auth.isAdmin;
-
-
+$scope.viewedCourses = null;
 
 
 Course.getCourses().success(function(data){
 $scope.courses = data
  }) 
+
+if(Auth.isLoggedIn() == true){
+  Course.getViewedCourses(Auth.getCurrentUser()._id).success(function(data){
+      $scope.viewedCourses = data
+})
+}
+
 
 $scope.showCreate = function(){
     if($scope.show){
@@ -24,6 +30,35 @@ $scope.showCreate = function(){
     }
 
   }
+
+  $scope.delete = function(course_id, index){
+    $scope.courses.splice(index, 1)
+    Course.deleteCourse(course_id)
+                .success(function() {
+
+                })
+  }
+
+  $scope.deleteCourse = function(course_id, index){
+    if($scope.show){
+      $scope.show = false;
+    }
+    else{
+      $scope.show = true;
+    }
+
+  }
+
+  $scope.viewedCourse = function(course_id){
+    if($scope.viewedCourses != null){
+      for(var i = 0; i < $scope.viewedCourses.length; i++){
+        if(course_id == $scope.viewedCourses[i]){
+          return true;
+        }
+      }
+    }
+  return false;
+    }
 
 
     $scope.addCourse = function(course){
