@@ -19,7 +19,7 @@ var CommentSchema = new Schema({
 
 var CourseSchema = new Schema({
   title: {type:String, required: true},
-  rate: {type:Number, required: true, min: 1, max: 5},
+  rate: {type:Number, required: true, min: 0, max: 5},
   language: {type:String, required: true},
   description: {type:String, required: true},
   youtube: {type:String, required: true, match: /youtube/},

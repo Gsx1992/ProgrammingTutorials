@@ -5,10 +5,26 @@ var Course = require('./course.model');
 
 // Get list of courses
 exports.index = function(req, res) {
+  if(req.query.views && req.query.language){
+    Course.where('views').gte(req.query.views).where('language', req.query.language).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+    });
+  }
+  else if(req.query.views){
+    Course.where('views').gte(req.query.views).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+  });
+  }
+
+  else
+  {
   Course.find(function (err, courses) {
     if(err) { return handleError(res, err); }
     return res.json(200, courses);
   });
+}
 };
 
 exports.userComments = function(req, res) {
