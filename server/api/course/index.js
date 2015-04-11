@@ -13,6 +13,7 @@ router.patch('/:id', controller.update);
 router.post('/:id/views', controller.update_views);
 router.delete('/:id', controller.destroy);
 router.post('/:id/comments', controller.add_comment);
+router.post('/:course_id/comments/:comment_id/replies', controller.add_reply);
 router.get('/:id/comments', controller.userComments);
 router.post('/:course_id/comments/:comment_id', controller.delete_comment);
 

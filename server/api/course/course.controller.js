@@ -11,13 +11,18 @@ exports.index = function(req, res) {
     return res.json(200, courses);
     });
   }
+  else if(req.query.language){
+    Course.where('language', req.query.language).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+  });
+  }
   else if(req.query.views){
     Course.where('views').gte(req.query.views).sort('+views').find(function (err, courses) {
     if(err) { return handleError(res, err); }
     return res.json(200, courses);
   });
   }
-
   else
   {
   Course.find(function (err, courses) {
@@ -42,7 +47,7 @@ exports.userComments = function(req, res) {
       return res.json(200, commentArray);
      }
      else {
-              return res.send(404,"No Comments found")
+              return handleError(res, err);
           }          
 
   });
@@ -123,7 +128,7 @@ exports.delete_comment = function(req, res) {
             }
 
          })
-      };
+  };
 
 
 
@@ -139,9 +144,44 @@ exports.add_comment = function(req, res) {
                   course_id: req.body.course_id
                }
               course.comments.push(comment)
+              if(course.rate == 0){
+                course.rate = req.body.rate
+              }
+              else{
+                var total = 0
+                for(var i = 0; i < course.comments.length; i++){
+                  total+=course.comments[i].rate
+                }
+                course.rate = (total / course.comments.length)
+              }              
               course.save(function (err) {
                 if(err) { return handleError(res, err); }
                 var last = _.last(course.comments)
+                if (last != undefined) {
+                   return res.json(200, last);
+                } else {
+                  return res.send(500,"Database error")
+                   }
+              });
+        });
+    };
+
+    exports.add_reply = function(req, res) {
+      console.log(req.params.course_id)
+       Course.findById(req.params.course_id, function (err, course) {
+              var reply = {
+                  UID: req.body.UID,
+                  name: req.body.name,
+                  email: req.body.email,
+                  post: req.body.post,
+                  created_at: req.body.created_at,
+                  course_id: req.body.course_id,
+                  comment_id: req.body.comment_id
+               }
+              course.comments.id(req.body.comment_id).replies.push(reply)            
+              course.save(function (err) {
+                if(err) { return handleError(res, err); }
+                var last = _.last(course.comments.id(req.body.comment_id).replies)
                 if (last != undefined) {
                    return res.json(200, last);
                 } else {

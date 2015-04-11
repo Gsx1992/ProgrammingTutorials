@@ -43,6 +43,10 @@ angular.module('learnprogrammingApp')
      getViewedCourses : function(user_id) {
           return $http.get('/api/users/' + user_id+ '/views')
      },
+
+     addReply : function(course_id, comment_id, reply) {
+          return $http.post('/api/courses/' + course_id+ '/comments/'+comment_id+'/replies', reply )
+     }
   }
       
       return api

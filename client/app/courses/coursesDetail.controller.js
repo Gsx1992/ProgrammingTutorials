@@ -4,13 +4,27 @@
            function($scope,Course, Auth, $routeParams) {
             $scope.isAdmin = Auth.isAdmin;
         $scope.showEdit = false;
+
+
+
         Course.getCourse($routeParams.id).success(function(data){
     		$scope.course = data
+        $scope.allReplies = []
     		$scope.comments = data.comments
- 			 }) 
+        for(var i = 0; i< $scope.comments.length; i++){
+          for(var z = 0; z < $scope.comments[i].replies.length; z++){
+          if($scope.comments[i].replies[z]){
+            $scope.allReplies.push($scope.comments[i].replies[z])
+          }
+        }
+      }
+      console.log($scope.allReplies[0].course_id)
+    })
+
+      
+
 
         Course.addViewedCourse(Auth.getCurrentUser()._id, $routeParams.id).success(function() {
-            console.log("it worked!!")
           })
 
         Course.addCourseView($routeParams.id)
@@ -41,6 +55,25 @@ $scope.isReadonly = true;
    $scope.newComment = {}
 
  }
+
+ $scope.postReply = function(comment_id_in, commentReply){
+   $scope.date = new Date();
+   var reply = {
+    UID: Auth.getCurrentUser()._id,
+    email: Auth.getCurrentUser().email,
+    name: Auth.getCurrentUser().name,
+    post: commentReply,
+    created_at: $scope.date,
+    course_id: $routeParams.id,
+    comment_id: comment_id_in
+  }
+   Course.addReply($routeParams.id, comment_id_in, reply)
+                .success(function(added_reply) {
+                    $scope.comments.replies.push(added_reply)
+                    $scope.reply = {} ;   
+                })
+ }
+
 
  $scope.deleteComment = function(_id, index){
     $scope.comments.splice(index, 1)
