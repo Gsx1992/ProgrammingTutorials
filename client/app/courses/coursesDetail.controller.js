@@ -4,9 +4,6 @@
            function($scope,Course, Auth, $routeParams) {
             $scope.isAdmin = Auth.isAdmin;
         $scope.showEdit = false;
-
-
-
         Course.getCourse($routeParams.id).success(function(data){
     		$scope.course = data
         $scope.allReplies = []
@@ -18,7 +15,6 @@
           }
         }
       }
-      console.log($scope.allReplies[0].course_id)
     })
 
       
@@ -52,6 +48,7 @@ $scope.isReadonly = true;
                     $scope.comment = {} ;   
                 })
 
+
    $scope.newComment = {}
 
  }
@@ -69,9 +66,11 @@ $scope.isReadonly = true;
   }
    Course.addReply($routeParams.id, comment_id_in, reply)
                 .success(function(added_reply) {
-                    $scope.comments.replies.push(added_reply)
-                    $scope.reply = {} ;   
                 })
+
+                $scope.allReplies.push(reply);
+
+
  }
 
 

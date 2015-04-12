@@ -5,11 +5,39 @@ var Course = require('./course.model');
 
 // Get list of courses
 exports.index = function(req, res) {
-  if(req.query.views && req.query.language){
-    Course.where('views').gte(req.query.views).where('language', req.query.language).sort('+views').find(function (err, courses) {
+  if(req.query.views && req.query.language && req.query.difficulty){
+    Course.where('views').gte(req.query.views).where('language', req.query.language).where('difficulty', req.query.difficulty).sort('+views').find(function (err, courses) {
     if(err) { return handleError(res, err); }
     return res.json(200, courses);
     });
+  }
+
+  else if(req.query.difficulty && req.query.language){
+    Course.where('difficulty', req.query.difficulty).where('language', req.query.language).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+});
+  }
+
+    else if(req.query.difficulty && req.query.views){
+    Course.where('difficulty', req.query.difficulty).where('views', req.query.views).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+});
+  }
+
+    else if(req.query.language && req.query.views){
+    Course.where('language', req.query.language).where('views', req.query.views).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+});
+  }
+
+  else if(req.query.difficulty){
+    Course.where('difficulty', req.query.difficulty).sort('+views').find(function (err, courses) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, courses);
+});
   }
   else if(req.query.language){
     Course.where('language', req.query.language).sort('+views').find(function (err, courses) {
@@ -33,6 +61,32 @@ exports.index = function(req, res) {
 };
 
 exports.userComments = function(req, res) {
+
+  if(req.query.language){
+
+    Course.where('language', req.query.language).find(function (err, courses) {
+    var commentArray = []
+      for (var i = 0; i < courses.length; i++){
+     for(var z = 0; z < courses[i].comments.length; z++){
+       if(courses[i].comments[z].UID == req.params.id && courses[i].language == req.query.language){
+         commentArray.push(courses[i].comments[z])
+       }
+     }
+ }
+
+ if(commentArray.length > 0){
+      return res.json(200, commentArray);
+     }
+   else if(err) { return handleError(res, err); }
+   else
+   {
+    return res.send(404);
+   }   
+  });
+
+  }
+  else
+  {
   Course.find(function (err, courses) {
     var commentArray = []
     for (var i = 0; i < courses.length; i++){
@@ -43,14 +97,17 @@ exports.userComments = function(req, res) {
      }
    }
 
-     if(commentArray.length > 0){
+   if(commentArray.length > 0){
       return res.json(200, commentArray);
      }
-     else {
-              return handleError(res, err);
-          }          
+   else if(err) { return handleError(res, err); }
+   else
+   {
+    return res.send(404);
+   }        
 
   });
+}
 };
 
 // Get a single course
@@ -167,7 +224,6 @@ exports.add_comment = function(req, res) {
     };
 
     exports.add_reply = function(req, res) {
-      console.log(req.params.course_id)
        Course.findById(req.params.course_id, function (err, course) {
               var reply = {
                   UID: req.body.UID,

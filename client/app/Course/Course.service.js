@@ -29,7 +29,7 @@ angular.module('learnprogrammingApp')
      },
 
      deleteCourseComment : function(course_id, comment_id) {
-          return $http.post('/api/courses/' + course_id+ '/comments/'+comment_id)
+          return $http.delete('/api/courses/' + course_id+ '/comments/'+comment_id)
      },
 
      getUserComments : function(user_id) {

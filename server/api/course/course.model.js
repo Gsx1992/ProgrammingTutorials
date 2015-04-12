@@ -17,9 +17,9 @@ var ReplySchema = new Schema({
 
 var CommentSchema = new Schema({
 	UID: {type: String, required: true},
-  email: {type: String, required: true},
+  email: {type: String, required: true, match: /@/},
 	name: {type:String, required: true},
-  rate: {type:Number, required: true, min: 1, max: 5},
+  rate: {type:Number, required: true, min: 1, max: 5, default: 1},
 	post: {type:String, required: true},
 	created_at: {type:String, required: true},
 	course_id: {type:String, required: true},
